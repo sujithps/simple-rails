@@ -1,0 +1,36 @@
+version: '3.6'
+
+services:
+  db:
+    image: postgres:10.3-alpine
+    environment:
+      POSTGRES_DB: simple_development
+      POSTGRES_USER: simple
+      POSTGRES_PASSWORD: ''
+  web:
+    build: .
+    working_dir: /app
+    entrypoint: "./docker-entrypoint.sh"
+    command: ['bundle', 'exec', 'rails', 's', '-p', '7777', '-b', '0.0.0.0']
+    volumes:
+      - .:/app
+      - ./configurations/application1.yml:/app/config/application.yml
+    ports:
+      - "7777:7777"
+    depends_on:
+      - db
+    tmpfs: /app/tmp/pids/
+
+  web2:
+      build: .
+      working_dir: /app
+      entrypoint: "./docker-entrypoint.sh"
+      command: ['bundle', 'exec', 'rails', 's', '-p', '7777', '-b', '0.0.0.0']
+      volumes:
+        - .:/app
+        - ./configurations/application2.yml:/app/config/application.yml
+      ports:
+        - "7780:7777"
+      depends_on:
+        - db
+      tmpfs: /app/tmp/pids/
