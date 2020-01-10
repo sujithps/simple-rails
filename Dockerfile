@@ -10,9 +10,9 @@ RUN bundle install
 
 COPY . /app/
 
-#ENTRYPOINT ["/app/docker-entrypoint.sh"]
+ENTRYPOINT ["/app/docker-entrypoint.sh"]
 
-#RUN chmod 777 ./docker-entrypoint.sh
+RUN chmod 777 ./docker-entrypoint.sh
 
 
-#CMD ["bundle", "exec", "rails", "s", "-p", "7777", "-b", "'0.0.0.0'"]
+CMD ["bundle", "exec", "rails", "s", "-p", "7777", "-b", "'0.0.0.0'"]
